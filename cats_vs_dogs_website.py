@@ -19,7 +19,7 @@ def download_model(url, path):
 
 # Define the preprocessing steps
 transform = transforms.Compose([
-    transforms.Resize((128, 128)),
+    transforms.Resize((224, 224)),
     transforms.Lambda(lambda img: img.convert("RGB")),
     transforms.ToTensor(),
 ])
