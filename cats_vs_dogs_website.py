@@ -8,7 +8,7 @@ import os
 
 # Define the URL for the model file
 MODEL_URL = 'https://drive.google.com/uc?export=download&id=1wqvISJDJ-Q3ZDpssZge4L6DRXM-3ElsY'
-MODEL_PATH = 'cats_vs_dogs_model.pth'
+MODEL_PATH = '/content/drive/My Drive/My Career/Projects/cats and dogs/cats_vs_dogs_model.pth'
 
 # Function to download the model file
 def download_model(url, path):
