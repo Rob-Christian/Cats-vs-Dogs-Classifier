@@ -7,7 +7,7 @@ import requests
 import os
 
 # Define the URL for the model file
-MODEL_ID = '1wqvISJDJ-Q3ZDpssZge4L6DRXM-3ElsY'
+MODEL_ID = '1Tx7AtybXRsc3ExSe6-XwKvDwCY_M_S09'
 MODEL_URL = f'https://drive.google.com/uc?export=download&id={MODEL_ID}'
 MODEL_PATH = 'cats_vs_dogs_model.pth'
 
