@@ -3,11 +3,24 @@ import torch
 import torch.nn as nn
 from torchvision import transforms, models
 from PIL import Image
+import requests
+import os
 
-# Define the same preprocessing steps as in training
+# Define the URL for the model file
+MODEL_URL = 'https://drive.google.com/uc?export=download&id=1wqvISJDJ-Q3ZDpssZge4L6DRXM-3ElsY'
+MODEL_PATH = 'cats_vs_dogs_model.pth'
+
+# Function to download the model file
+def download_model(url, path):
+    if not os.path.exists(path):
+        response = requests.get(url)
+        with open(path, 'wb') as f:
+            f.write(response.content)
+
+# Define the preprocessing steps
 transform = transforms.Compose([
     transforms.Resize((128, 128)),
-    transforms.Lambda(lambda img: img.convert("RGB")),  # Ensure 3 channels
+    transforms.Lambda(lambda img: img.convert("RGB")),
     transforms.ToTensor(),
 ])
 
@@ -22,20 +35,23 @@ def load_model():
     # Modify the fully connected layer for binary classification
     num_features = model.fc.in_features
     model.fc = nn.Sequential(
-        nn.Linear(num_features, 1),  # Output for binary classification
-        nn.Sigmoid()  # Sigmoid for probability
+        nn.Linear(num_features, 1),
+        nn.Sigmoid()
     )
     
-    # Load the saved model weights
-    model.load_state_dict(torch.load('cats_vs_dogs_model.pth', map_location=torch.device('cpu')))
-    model.eval()  # Set the model to evaluation mode
+    # Download the model if necessary
+    download_model(MODEL_URL, MODEL_PATH)
+    
+    # Load the model weights
+    model.load_state_dict(torch.load(MODEL_PATH, map_location=torch.device('cpu')))
+    model.eval()
     
     return model
 
-# Predict function
+# Prediction function
 def predict_image(image, model):
-    img = transform(image)  # Apply transformations
-    img = img.unsqueeze(0)  # Add batch dimension
+    img = transform(image)
+    img = img.unsqueeze(0)
 
     with torch.no_grad():
         output = model(img)
@@ -49,27 +65,18 @@ def predict_image(image, model):
 def main():
     st.title('Cat vs Dog Classifier')
     
-    # Upload image
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
     
     if uploaded_file is not None:
-        # Load image
         image = Image.open(uploaded_file)
-        
-        # Load the model
         model = load_model()
-        
-        # Predict
         probability_cat, probability_dog = predict_image(image, model)
         
-        # Display results
         st.image(image, caption='Uploaded Image', use_column_width=True)
-        
-        st.write()  # Add an empty line for spacing
+        st.write()
         st.write(f"Probability of being a Cat: {probability_cat:.4f}")
         st.write(f"Probability of being a Dog: {probability_dog:.4f}")
         
-        # Determine and display the result with larger font
         if probability_dog > probability_cat:
             st.markdown(f"<h2 style='color: red;'>The image is predicted to be a Dog with probability {probability_dog:.4f}.</h2>", unsafe_allow_html=True)
         else:
