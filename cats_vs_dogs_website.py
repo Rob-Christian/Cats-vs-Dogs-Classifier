@@ -18,7 +18,6 @@ def download_model(url, path):
         response.raise_for_status()  # Ensure we notice bad responses
         with open(path, 'wb') as f:
             f.write(response.content)
-        st.write("Model downloaded successfully.")
 
 # Define the preprocessing steps
 transform = transforms.Compose([
@@ -76,14 +75,12 @@ def main():
         model = load_model()
         probability_cat, probability_dog = predict_image(image, model)
         
-        st.image(image, caption='Uploaded Image', use_column_width=True)
-        st.write(f"Probability of being a Cat: {probability_cat:.4f}%")
-        st.write(f"Probability of being a Dog: {probability_dog:.4f}%")
+        st.image(image, caption='Successfully Uploaded Image', use_column_width=True)
         
         if probability_dog > probability_cat:
-            st.markdown(f"<h2 style='color: red;'>The image is predicted to be a Dog with probability {probability_dog:.4f}%</h2>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='color: red;'>Aha! It is a Dog (confidence level: {probability_dog:.4f}%)</h2>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<h2 style='color: blue;'>The image is predicted to be a Cat with probability {probability_cat:.4f}%</h2>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='color: blue;'>Aha! It is a Cat (confidence level: {probability_cat:.4f}%)</h2>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
