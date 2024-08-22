@@ -14,12 +14,8 @@ MODEL_PATH = 'cats_vs_dogs_model.pth'
 def download_model(url, path):
     if not os.path.exists(path):
         response = requests.get(url)
-        if response.status_code == 200:
-            with open(path, 'wb') as f:
-                f.write(response.content)
-            st.write("Model downloaded successfully.")
-        else:
-            st.error(f"Failed to download model file. Status code: {response.status_code}")
+        with open(path, 'wb') as f:
+            f.write(response.content)
 
 # Define the preprocessing steps
 transform = transforms.Compose([
@@ -47,11 +43,8 @@ def load_model():
     download_model(MODEL_URL, MODEL_PATH)
     
     # Load the model weights
-    try:
-        model.load_state_dict(torch.load(MODEL_PATH, map_location=torch.device('cpu')))
-        model.eval()
-    except Exception as e:
-        st.error(f"Error loading model: {e}")
+    model.load_state_dict(torch.load(MODEL_PATH, map_location=torch.device('cpu')))
+    model.eval()
     
     return model
 
