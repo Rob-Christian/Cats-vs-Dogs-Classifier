@@ -6,19 +6,15 @@ from PIL import Image
 import requests
 import os
 
-# Define the URL for the model file
-MODEL_ID = '1Tx7AtybXRsc3ExSe6-XwKvDwCY_M_S09'
-MODEL_URL = f'https://drive.google.com/uc?export=download&id={MODEL_ID}'
+# Define the URL for the model file hosted on GitHub Releases
+MODEL_URL = 'https://github.com/Rob-Christian/Cats-vs-Dogs-Classifier/releases/download/v1.0.0/cats_vs_dogs_model.pth'
 MODEL_PATH = 'cats_vs_dogs_model.pth'
 
-# Function to download the model file, bypassing the virus scan warning
+# Function to download the model file from GitHub Releases
+@st.cache_data
 def download_model(url, path):
     if not os.path.exists(path):
-        # Use a session to handle large file downloads
-        session = requests.Session()
-        
-        # Get the confirmation token for large files
-        response = session.get(url, params={'confirm': 't'}, stream=True)
+        response = requests.get(url)
         response.raise_for_status()  # Ensure we notice bad responses
         with open(path, 'wb') as f:
             f.write(response.content)
