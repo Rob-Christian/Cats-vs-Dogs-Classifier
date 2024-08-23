@@ -97,9 +97,9 @@ def main():
         st.image(image.resize((300, 300)), caption='Successfully Uploaded Image', use_column_width=True)
         
         if probability_dog > probability_cat:
-            st.markdown(f"<h2 style='color: red;'>Aha! It is a Dog (confidence level: {probability_dog:.4f}%)</h2>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='color: red;'>Aha! I'm {probability_dog:.4f}% that it is a Dog</h2>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<h2 style='color: blue;'>Aha! It is a Cat (confidence level: {probability_cat:.4f}%)</h2>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='color: blue;'>Aha! I'm {probability_cat:.4f}% that it is a Cat</h2>", unsafe_allow_html=True)
         
         # Ask the user if the prediction is correct
         st.write("Is the prediction correct?")
