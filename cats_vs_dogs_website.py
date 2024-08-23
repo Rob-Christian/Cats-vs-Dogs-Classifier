@@ -5,6 +5,8 @@ from torchvision import transforms, models
 from PIL import Image
 import requests
 import os
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
 
 # Define the URL for the model file hosted on GitHub Releases
 MODEL_URL = 'https://github.com/Rob-Christian/Cats-vs-Dogs-Classifier/releases/download/v1.0.0/cats_vs_dogs_model.pth'
@@ -64,6 +66,24 @@ def predict_image(image, model):
     
     return probability_cat, probability_dog
 
+# Function to upload an image to Google Drive
+def upload_to_gdrive(image, filename):
+    # Authenticate and create the PyDrive client
+    gauth = GoogleAuth()
+    gauth.LocalWebserverAuth()
+    drive = GoogleDrive(gauth)
+    
+    # Save image temporarily
+    temp_path = f"/tmp/{filename}"
+    image.save(temp_path)
+    
+    # Create and upload file
+    gfile = drive.CreateFile({'title': filename})
+    gfile.SetContentFile(temp_path)
+    gfile.Upload()
+    
+    st.success("Image uploaded to Google Drive.")
+
 # Streamlit application
 def main():
     st.title('Cat vs Dog Classifier')
@@ -75,12 +95,21 @@ def main():
         model = load_model()
         probability_cat, probability_dog = predict_image(image, model)
         
-        st.image(image.resize((300,300)), caption='Successfully Uploaded Image', use_column_width=True)
+        st.image(image.resize((300, 300)), caption='Successfully Uploaded Image', use_column_width=True)
         
         if probability_dog > probability_cat:
             st.markdown(f"<h2 style='color: red;'>Aha! It is a Dog (confidence level: {probability_dog:.4f}%)</h2>", unsafe_allow_html=True)
         else:
             st.markdown(f"<h2 style='color: blue;'>Aha! It is a Cat (confidence level: {probability_cat:.4f}%)</h2>", unsafe_allow_html=True)
+        
+        # Verification section
+        st.write("Is the model's prediction correct?")
+        if st.button("Yes"):
+            st.write("Great! Glad it worked.")
+        if st.button("No"):
+            st.write("Oh no! Uploading the image to Google Drive for further analysis.")
+            filename = uploaded_file.name
+            upload_to_gdrive(image, filename)
 
 if __name__ == "__main__":
     main()
