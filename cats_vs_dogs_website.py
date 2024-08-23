@@ -5,8 +5,6 @@ from torchvision import transforms, models
 from PIL import Image
 import requests
 import os
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
 
 # Define the URL for the model file hosted on GitHub Releases
 MODEL_URL = 'https://github.com/Rob-Christian/Cats-vs-Dogs-Classifier/releases/download/v1.0.0/cats_vs_dogs_model.pth'
@@ -105,11 +103,11 @@ def main():
         
         # Ask the user if the prediction is correct
         st.write("Is the prediction correct?")
-        if st.button("No"):
+        if st.button("Yes"):
+            st.write("Great! Thanks for confirming.")
+        elif st.button("No"):
             st.write("Oh no! Please submit the correct image using the form below:")
             st.markdown(f"[Submit Image via Google Form]({GOOGLE_FORM_URL})")
-        else:
-            st.write("Great! Thanks for confirming.")
 
 if __name__ == "__main__":
     main()
