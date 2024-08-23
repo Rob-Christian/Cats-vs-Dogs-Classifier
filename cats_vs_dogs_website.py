@@ -11,6 +11,7 @@ from pydrive.drive import GoogleDrive
 # Define the URL for the model file hosted on GitHub Releases
 MODEL_URL = 'https://github.com/Rob-Christian/Cats-vs-Dogs-Classifier/releases/download/v1.0.0/cats_vs_dogs_model.pth'
 MODEL_PATH = 'cats_vs_dogs_model.pth'
+GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfQbGpZgcCbWNlI2mdAxmGq8gXae0jZx88haKqTQsmAj_uzDA/viewform"
 
 # Function to download the model file from GitHub Releases
 @st.cache_data
@@ -102,14 +103,13 @@ def main():
         else:
             st.markdown(f"<h2 style='color: blue;'>Aha! It is a Cat (confidence level: {probability_cat:.4f}%)</h2>", unsafe_allow_html=True)
         
-        # Verification section
-        st.write("Is the model's prediction correct?")
-        if st.button("Yes"):
-            st.write("Great! Glad it worked.")
+        # Ask the user if the prediction is correct
+        st.write("Is the prediction correct?")
         if st.button("No"):
-            st.write("Oh no! Uploading the image to Google Drive for further analysis.")
-            filename = uploaded_file.name
-            upload_to_gdrive(image, filename)
+            st.write("Oh no! Please submit the correct image using the form below:")
+            st.markdown(f"[Submit Image via Google Form]({GOOGLE_FORM_URL})")
+        else:
+            st.write("Great! Thanks for confirming.")
 
 if __name__ == "__main__":
     main()
