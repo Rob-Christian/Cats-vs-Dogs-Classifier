@@ -90,9 +90,9 @@ def main():
         st.image(image.resize((300, 300)), caption='Successfully Uploaded Image', use_column_width=True)
         
         if probability_dog > probability_cat:
-            st.markdown(f"<h2 style='color: red;'>Aha! I am {probability_dog:.4f}% confident that it is a Dog</h2>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='color: red;'>Aha! I am {probability_dog:.2f}% confident that it is a Dog</h2>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<h2 style='color: blue;'>Aha! I am {probability_cat:.4f}% confident that it is a Cat</h2>", unsafe_allow_html=True)
+            st.markdown(f"<h2 style='color: blue;'>Aha! I am {probability_cat:.2f}% confident that it is a Cat</h2>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
