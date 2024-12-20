@@ -76,6 +76,7 @@ def main():
     You can access the dataset link and the GitHub repository of this application
 
     Dataset: https://www.kaggle.com/datasets/samuelcortinhas/cats-and-dogs-image-classification/data?select=train
+    
     GitHub Repository: https://github.com/Rob-Christian/Cats-vs-Dogs-Classifier/tree/main
     """)
     
