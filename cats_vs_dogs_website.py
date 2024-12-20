@@ -75,7 +75,7 @@ def main():
     It has been pre-trained on a Cats and Dogs Kaggle dataset and fine-tuned for binary classification of cats and dogs. 
     You can access the dataset link and the GitHub repository of this application
 
-    Dataset: https://www.kaggle.com/datasets/samuelcortinhas/cats-and-dogs-image-classification/data?select=train
+    Dataset: https://www.kaggle.com/datasets/samuelcortinhas/cats-and-dogs-image-classification
     
     GitHub Repository: https://github.com/Rob-Christian/Cats-vs-Dogs-Classifier/tree/main
     """)
